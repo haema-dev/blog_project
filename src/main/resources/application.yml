@@ -1,0 +1,30 @@
+# Database
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:./test
+    username: sa
+    password: 1234
+  jpa:
+    open-in-view: false
+    # hibernate 설정
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+# Log
+logging:
+  level:
+    org.hibernate.SQL: debug #Logger를 통해 출력
+    #org.hibernate.type: trace #파라미터 타입도 로그에 출력해줌! (외부라이브러리를 사용하는 방법도 있음)
+
+jwt:
+  header: Authorization
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  accessToken-validity-in-seconds: 3600 # 1시간
+  refreshToken-validity-in-seconds: 18000 # 5시간
