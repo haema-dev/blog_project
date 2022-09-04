@@ -16,6 +16,10 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.clojars.org'
+		name 'Clojars'
+	}
 }
 
 dependencies {
@@ -24,15 +28,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'pullable:pullable:0.2.0'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// jwt
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+	// jetbrains annotations import // https://github.com/JetBrains/java-annotations
+	compileOnly 'org.jetbrains:annotations:23.0.0'
 
 	// QueryDSL
 	implementation 'com.querydsl:querydsl-jpa'
