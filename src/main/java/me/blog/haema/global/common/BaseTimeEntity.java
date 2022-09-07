@@ -23,7 +23,7 @@ public class BaseTimeEntity { // 실제로 존재하지 않는 엔티티(테이�
     @Column(name = "last_modified_time")
     private LocalDateTime lastModifiedTime;
 
-    @Column(name = "delete_time")
+    @Column(name = "delete_time", columnDefinition = "datetime") // datetime 은 9999/12/31 까지 (타임스탬프는 안쓰는 추세)
     private LocalDateTime deleteTime;
 
     public void recordDeleteTime() {
