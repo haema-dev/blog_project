@@ -1,5 +1,6 @@
 package me.blog.haema.global.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -11,9 +12,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration // config 임을 알려주는 어노테이션
 public class RedisConfig { // "키-값" 구조의 비정형 데이터를 저장하고 관리 (Remote Dictionary Server 의 약자)
 
-    private String host = "127.0.0.1";
+    // final 선언 후 생성자로 주입 시, 컴파일 단위에서 에러 발견 가능
+    private final String host;
+    private final int port;
 
-    private int port = 6379;
+    // yml 설정
+    public RedisConfig(@Value("${spring.redis.host}") String host, @Value("${spring.redis.port}") int port) {
+        this.host = host;
+        this.port = port;
+    }
+
 
     // Thread-safe connections
     // Thread-safe : 멀티 쓰레드 환경에서 동시접근으로 인해 데드락 등의 일이 발생하는 것에 대해 안전

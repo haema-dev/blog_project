@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @Getter
-@MappedSuperclass // 왜 MappedSuperclass 인지 잘 이해가 안 간다ㅜㅜ @Inheritance 를 써야 맞지 않을까?
+@MappedSuperclass // 어노테이션이 상속을 하겠다는 의미가 아니기 때문에 @Inheritance
 public class BaseEntity extends BaseTimeEntity {
 
     @CreatedBy // 생성자 (유저 id)
