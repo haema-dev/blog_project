@@ -1,6 +1,9 @@
-package me.blog.haema.domain.persist;
+package me.blog.haema.domain.member.repository.persist;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.blog.haema.global.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -16,10 +19,13 @@ public class Member extends BaseTimeEntity {
     // AccessLevel: 생성자의 제어자 PROTECTED
     // 무분별한 객체 생성 불가능
 
+    // auto increment 전략은 id 를 db 에게 맡기겠다는 의미이다. 즉, id 데이터가 만들어지는 건 db 에서 데이터를 저장하는 순간.
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // id auto increment 전략
     @Column(name = "member_id", nullable = false, updatable = false)
     private Long id;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
     private String nickname;
 
@@ -29,21 +35,15 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
+        super.getCreateTime();
     }
 
-    // member Email/Nickname 수정
-    public void changeEmailAndNickname(String email, String nickname) {
-        this.email = email;
+    // member 수정
+    public void change(String password, String nickname) {
+        this.password = password;
         this.nickname = nickname;
+        super.getLastModifiedTime();
     }
 
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+    //toString()은 테스트 할 땐 괜찮지만 리소스 낭비이므로 commit 은 하지 말 것.
 }
