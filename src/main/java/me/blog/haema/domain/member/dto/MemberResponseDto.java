@@ -2,7 +2,7 @@ package me.blog.haema.domain.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import me.blog.haema.domain.member.repository.persist.Member;
+import me.blog.haema.domain.member.entity.persist.Member;
 
 import java.io.Serializable;
 
