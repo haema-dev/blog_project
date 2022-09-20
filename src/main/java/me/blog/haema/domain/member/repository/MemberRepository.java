@@ -5,8 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface MemberRepository extends JpaRepository<Member, Long>, // Spring Data Jpa 사용하기 위해 상속
         PagingAndSortingRepository<Member, Long> { // Paging 사용하기 위해 상속
 
