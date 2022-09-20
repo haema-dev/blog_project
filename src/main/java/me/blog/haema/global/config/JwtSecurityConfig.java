@@ -11,19 +11,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    /**
-     * Filter : doFilter 메소드를 통해 각각 request(요청)를 resource 로, resource 로부터 response(응답)를 수행
-     * SecurityFilterChain : HttpServletRequest match 여부, filter 를 정의하기 위한 interface
-     *
-     * JWT (JSON Web Token) : 안전하게 전송하기 위해 고안된 JSON 개체의 데이터 (key-value)
-     * */
-
     private final TokenProvider tokenProvider;
 
+    // TokenProvider 를 주입받아서 상속받은 SecurityConfigurerAdapter 에서 제공하는 configure 메소드에
+    // JwtFilter 를 통해서 Security 로직에 필터로 등록 (addFilterBefore : 기존 필터 이전에 필터 하나 추가 등록)
     @Override
-    public void configure(HttpSecurity builder) throws Exception {
+    public void configure(HttpSecurity http) throws Exception {
+
+        // JwtFilter 에서 TokenProvider 를 이용하여 Token 을 생성하거나 유효성 검사를 진행
         JwtFilter customFilter = new JwtFilter(tokenProvider);
-        builder.addFilterBefore(customFilter, // addFilterBefore : 앞에 필터를 추가
-                UsernamePasswordAuthenticationFilter.class); // 유저 name, password 를 인증 처리하는 Filter
+        http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 }
