@@ -15,12 +15,13 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/members")
+@RequestMapping("/api/v1")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
+    // create
+    @PostMapping("/public/members")
     public ResponseEntity<JoinResponseDto> join(@Valid @RequestBody JoinRequestDto dto) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -28,14 +29,14 @@ public class MemberController {
     }
 
     // read
-    @GetMapping("/{memberId}")
+    @GetMapping("/members/{memberId}")
     public ResponseEntity<MemberResponseDto> findMember(@PathVariable Long memberId) {
 
         return ResponseEntity.ok().body(memberService.findMember(memberId));
     }
 
     // update
-    @PatchMapping
+    @PatchMapping("/members/edit")
     public ResponseEntity<Void> edit(@Valid @RequestBody MemberUpdateRequestDto requestDto) {
 
         memberService.edit(requestDto.toEntity(), requestDto.toEntity().getEmail());
@@ -44,7 +45,7 @@ public class MemberController {
     }
 
     // delete
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/members/{memberId}")
     public ResponseEntity<Void> delete(@PathVariable Long memberId) {
 
         memberService.delete(memberId);
@@ -53,7 +54,7 @@ public class MemberController {
     }
 
     // findAll
-    @GetMapping
+    @GetMapping("/members")
     public ResponseEntity<Page<MemberResponseDto>> getMembers(
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 

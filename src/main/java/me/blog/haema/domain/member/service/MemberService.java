@@ -31,7 +31,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void edit(final Member updateMember, String email) {
+    public void edit(final Member updateMember, final String email) {
 
         Member member = memberRepository.findByEmail(email);
         member.change(updateMember.getPassword(), updateMember.getNickname());
