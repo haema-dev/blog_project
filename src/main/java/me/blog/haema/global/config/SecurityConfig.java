@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.blog.haema.global.jwt.JwtAccessDeniedHandler;
 import me.blog.haema.global.jwt.JwtAuthenticationEntryPoint;
 import me.blog.haema.global.jwt.TokenProvider;
-import me.blog.haema.global.secutiry.CustomAuthenticationProvider;
+import me.blog.haema.global.security.CustomAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

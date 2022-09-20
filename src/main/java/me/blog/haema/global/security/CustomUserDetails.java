@@ -1,4 +1,4 @@
-package me.blog.haema.global.secutiry;
+package me.blog.haema.global.security;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

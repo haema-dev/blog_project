@@ -21,6 +21,5 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
         // JwtFilter 에서 TokenProvider 를 이용하여 Token 을 생성하거나 유효성 검사를 진행
         JwtFilter customFilter = new JwtFilter(tokenProvider);
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 }
