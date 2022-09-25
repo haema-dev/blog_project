@@ -66,32 +66,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .accessDeniedHandler(jwtAccessDeniedHandler)
                     .and()
 
-                /** 이 과정이 전부 Provider 내에서 진행
-
-                    1. 인증 요청을 한다.(Http Request)
-                    2. AuthenticationFilter 가 요청을 가로채고,
-                       UsernamePasswordAuthenticationToken 인증용 객체를 생성
-                    3. UsernamePasswordToken 객체를 전달
-                    4. AuthenticationProvider(들)을 조회하여 인증을 요구
-                    5. 실제 DB 에서 사용자 인증정보를 가져오는 UserDetailsService 에 사용자 정보를 넘겨준다.
-                        - 이 때, UserDetailsService 를 상속받은 CustomUserDetailsService 를 통해 넘겨준다.
-                    6. 넘겨받은 사용자 정보를 통해 DB 에서 찾은 사용자 정보인 UserDetails 객체를 만든다.
-                        - 이 때, UserDetails 를 상속받은 CustomUserDetails 객체를 만듬
-                    7. AuthenticationProvider(들)은 UserDetails 를 넘겨받고 사용자 정보를 비교
-                        - AuthenticationProvider 를 상속 받은 CustomAuthenticationProvider 내에서 작업이 이루어짐  */
-
                 /**  인가 요청(authorizeRequests): 권한 및 url 관련 설정 */
                 // permitAll()은 누구나 허용
                 .authenticationProvider(customAuthenticationProvider())
                 .authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/").permitAll()
+                    .antMatchers(HttpMethod.GET, PUBLIC).permitAll()
                     .antMatchers(HttpMethod.POST, PUBLIC).permitAll()
                     .anyRequest().authenticated()
                     .and()
 
                 /** Token 생성 및 유효성 검증을 위한 TokenProvider 를 생성  */
                 // JwtFilter 를 SecurityConfig 에 적용할 JwtSecurityConfig 를 생성
-
                 .apply(new JwtSecurityConfig(tokenProvider))
                     .and()
 

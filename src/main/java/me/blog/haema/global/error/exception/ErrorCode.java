@@ -16,7 +16,10 @@ public enum ErrorCode { // enum 으로 지정된 status 만 사용
     // Member
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 없습니다."),
     USER_NOT_FOUND(400, "M002", "없는 회원 입니다."),
-    DUPLICATE_EMAIL(400, "M004", "이메일이 이미 존재합니다.");
+    DUPLICATE_EMAIL(400, "M004", "이메일이 이미 존재합니다."),
+
+    // JWT
+    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다.");
 
     private final int status;
     private final String code;

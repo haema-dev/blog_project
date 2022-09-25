@@ -9,15 +9,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MemberUpdateRequestDto {
 
+    @NotBlank
     private String nickname;
     @Email
+    @NotBlank
     private String email;
+    @NotBlank
     private String password;
 
     public static String encode(final String password) {

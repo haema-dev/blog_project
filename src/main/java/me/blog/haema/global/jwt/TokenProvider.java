@@ -108,8 +108,8 @@ public class TokenProvider implements InitializingBean {
 
         String id = String.valueOf(claims.get("id"));
 
-        log.info("claims.getId()");
-        log.info(claims.getId());
+        log.info("claims.get(id)");
+        log.info(String.valueOf(claims.get("id")));
 
         // Claims 에서 권한 정보를 빼내어, CustomUserDetails 라는 유저 객체를 생성
         CustomUserDetails principal = CustomUserDetails.of(memberRepository.findById(Long.valueOf(id)).orElseThrow(

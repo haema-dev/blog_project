@@ -1,18 +1,22 @@
 package me.blog.haema.domain.member.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.blog.haema.domain.member.dto.*;
 import me.blog.haema.domain.member.service.MemberService;
+import me.blog.haema.global.security.CustomUserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -29,26 +33,26 @@ public class MemberController {
     }
 
     // read
-    @GetMapping("/members/{memberId}")
-    public ResponseEntity<MemberResponseDto> findMember(@PathVariable Long memberId) {
+    @GetMapping("/members/details")
+    public ResponseEntity<MemberResponseDto> findMember() {
 
-        return ResponseEntity.ok().body(memberService.findMember(memberId));
+        return ResponseEntity.ok().body(memberService.findMember(getPrincipal().getId()));
     }
 
     // update
-    @PatchMapping("/members/edit")
+    @PatchMapping("/members")
     public ResponseEntity<Void> edit(@Valid @RequestBody MemberUpdateRequestDto requestDto) {
 
-        memberService.edit(requestDto.toEntity(), requestDto.toEntity().getEmail());
+        memberService.edit(requestDto.toEntity(), this.getPrincipal().getId());
 
         return ResponseEntity.ok().build();
     }
 
     // delete
-    @DeleteMapping("/members/{memberId}")
-    public ResponseEntity<Void> delete(@PathVariable Long memberId) {
+    @DeleteMapping("/members")
+    public ResponseEntity<Void> delete() {
 
-        memberService.delete(memberId);
+        memberService.delete(getPrincipal().getId());
 
         return ResponseEntity.noContent().build();
     }
@@ -59,5 +63,12 @@ public class MemberController {
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         return ResponseEntity.ok().body(memberService.getMembers(pageable));
+    }
+
+    private CustomUserDetails getPrincipal() {
+        log.debug("principal : {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+        return (CustomUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
     }
 }

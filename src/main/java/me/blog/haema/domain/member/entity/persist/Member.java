@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter //@Setter // id 값 바뀔 수 있음 (500에러 발생 가능성)
@@ -28,7 +29,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String email;
 

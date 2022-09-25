@@ -8,8 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long>, // Spring Data Jpa 사용하기 위해 상속
-        PagingAndSortingRepository<Member, Long> { // Paging 사용하기 위해 상속
+public interface MemberRepository extends JpaRepository<Member, Long>{ // Spring Data Jpa 사용하기 위해 상속
 
     // CrudRepository 를 상속 받지 않고 JpaRepository 를 상속받는 이유는
     // JpaRepository ─┬─ PagingAndSortingRepository ─ CrudRepository

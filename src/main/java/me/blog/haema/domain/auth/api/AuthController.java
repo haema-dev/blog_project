@@ -2,6 +2,7 @@ package me.blog.haema.domain.auth.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.blog.haema.domain.auth.dto.ResponseTokenDto;
 import me.blog.haema.domain.auth.service.AuthService;
 import me.blog.haema.domain.member.dto.MemberRequestDto;
 import me.blog.haema.global.jwt.TokenDto;
@@ -11,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @Slf4j
 @RestController
@@ -21,12 +24,16 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private static Cookie cookie;
 
     @PostMapping("/public/auth/login")
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody MemberRequestDto requestDto) {
 
         TokenDto token = authService.login(requestDto.getEmail(), requestDto.getPassword());
         String refreshToken = token.getRefreshToken();
+        cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, getCookie(refreshToken).toString())
                 .body(token);
@@ -40,6 +47,14 @@ public class AuthController {
         response.addCookie(myCookie);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/public/auth/reissue")
+    public ResponseEntity<ResponseTokenDto> reissue() {
+
+        String refreshToken = cookie.getValue();
+
+        return ResponseEntity.ok(ResponseTokenDto.from(authService.reissue(refreshToken), true));
     }
 
     private ResponseCookie getCookie(String refreshToken) {

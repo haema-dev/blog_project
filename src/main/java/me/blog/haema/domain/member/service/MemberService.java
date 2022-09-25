@@ -31,9 +31,10 @@ public class MemberService {
     }
 
     @Transactional
-    public void edit(final Member updateMember, final String email) {
+    public void edit(final Member updateMember, final Long memberId) {
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
         member.change(updateMember.getPassword(), updateMember.getNickname());
     }
 
